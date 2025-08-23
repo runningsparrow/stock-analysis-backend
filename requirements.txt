@@ -1,0 +1,26 @@
+# Web框架
+fastapi>=0.111.0,<0.120.0
+uvicorn[standard]>=0.30.0,<0.31.0
+
+# 数据库
+sqlalchemy>=2.0.0,<3.0.0
+pymysql>=1.1.0,<2.0.0
+alembic>=1.13.0,<2.0.0
+
+# 数据验证和配置
+pydantic>=2.8.0,<3.0.0
+pydantic-settings>=2.0.0,<3.0.0
+python-dotenv>=1.0.0,<2.0.0
+
+# 任务调度
+apscheduler>=3.10.0,<4.0.0
+
+# 异步HTTP和数据处理
+aiohttp>=3.10.0,<4.0.0
+akshare>=1.12.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+
+# 文件上传和认证
+python-multipart>=0.0.6,<1.0.0
+passlib[bcrypt]>=1.7.4,<2.0.0
+python-jose[cryptography]>=3.3.0,<4.0.0
