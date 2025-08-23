@@ -1,6 +1,8 @@
 # 环境
 .venv/
 .env
+.venv310/
+.venv311/
 
 # 运行时
 __pycache__/
@@ -11,3 +13,11 @@ __pycache__/
 *.sqlite
 *.csv
 *.xlsx
+
+
+# IDE
+.vscode/
+.idea/
+
+# Virtualenv
+venv/
