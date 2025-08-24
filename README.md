@@ -43,11 +43,19 @@ pip install -r requirements.txt
 
 ```bash
 # 复制环境变量模板
-cp .env.example .env
+cp env.example .env
 
 # 编辑配置文件
 vim .env
 ```
+
+**重要**: 如果你要使用Tushare数据源，请在 `.env` 文件中设置你的Tushare API token：
+
+```bash
+TU_SHARE_TOKEN=your_actual_tushare_token_here
+```
+
+你可以从 [Tushare官网](https://tushare.pro/) 申请免费账号获取token。
 
 ### 3. 启动服务
 
