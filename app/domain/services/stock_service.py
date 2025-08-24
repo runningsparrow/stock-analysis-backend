@@ -47,4 +47,3 @@ class StockService:
         # 3. 只保留接口需要字段
         keep = ["date", "open", "high", "low", "close", "volume_str", "amount_str"]
         return df[keep].to_dict("records")
-    
