@@ -21,3 +21,6 @@ __pycache__/
 
 # Virtualenv
 venv/
+
+# image
+.png
