@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.core.exceptions import stock_analysis_exception_handler, StockAnalysisException
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api.v1 import stocks
@@ -23,6 +24,8 @@ app.add_middleware(
 # 注册路由
 app.include_router(stocks.router, prefix="/api/v1", tags=["Stocks"])
 
+# 注册全局异常处理器
+app.add_exception_handler(StockAnalysisException, stock_analysis_exception_handler)
 
 @app.get("/")
 async def root():

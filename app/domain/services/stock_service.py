@@ -1,4 +1,6 @@
 from typing import List, Optional
+
+from app.core.exceptions import DataSourceException
 from app.infrastructure.data.sources.eastmoney import EastMoneyDataSource
 from app.domain.models.schemas.stock import StockResponse, StockKLineOut
 
@@ -20,30 +22,37 @@ class StockService:
         return stock[0] if stock else None
 
     # ------------ K 线 ------------
-    async def get_kline(self, symbol: str, freq: str = "daily", limit: int = 30) -> List[dict]:
+    async def get_kline(
+        self,
+        symbol: str,
+        freq: str = "daily",
+        limit: int = 30
+    ) -> List[dict]:
         """
-        返回字段与 StockKLineOut 完全一致
+        获取东财 K 线数据，若空则抛出 503
         """
         df = await self.data_source.get_stock_kline(symbol, freq, limit)
+
         if df.empty:
-            return []
+            raise DataSourceException("东财接口暂时不可用", status_code=503)
 
-        # 1. 统一英文列
-        col_map = {
-            "日期": "date",
-            "开盘": "open",
-            "收盘": "close",
-            "最高": "high",
-            "最低": "low",
-            "成交量": "volume",
-            "成交额": "amount",
-        }
-        df = df.rename(columns=col_map)
+        # 统一列名
+        df = df.rename(
+            columns={
+                "日期": "date",
+                "开盘": "open",
+                "收盘": "close",
+                "最高": "high",
+                "最低": "low",
+                "成交量": "volume",
+                "成交额": "amount",
+            }
+        )
 
-        # 2. 生成可读化字段
+        # 可读化字段
         df["volume_str"] = (df["volume"] / 1e4).round(2).astype(str) + " 万手"
         df["amount_str"] = (df["amount"] / 1e8).round(2).astype(str) + " 亿"
 
-        # 3. 只保留接口需要字段
+        # 只保留需要的列
         keep = ["date", "open", "high", "low", "close", "volume_str", "amount_str"]
         return df[keep].to_dict("records")
